@@ -202,6 +202,10 @@ pluginBundle {
             id = 'net.minecraftforge.gradle.tweaker-server'
             displayName = 'Mincraft Server Tweaker Plugin'
         }
+        agentClient {
+            id = 'net.minecraftforge.gradle.agent-client'
+            displayName = 'Mincraft Client Agent Plugin'
+        }
         forge {
             id = 'net.minecraftforge.gradle.forge'
             displayName = 'MincraftForge Mod Development Plugin'

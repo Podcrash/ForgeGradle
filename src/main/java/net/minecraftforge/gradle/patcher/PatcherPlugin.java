@@ -444,7 +444,7 @@ public class PatcherPlugin extends BasePlugin<PatcherExtension>
                 patcher.getDelayedResourcesDir(),
                 patcher.getDelayedTestSourcesDir(),
                 patcher.getDelayedTestResourcesDir()
-                );
+        );
 
         ExtractTask extractSrc = makeTask(projectString(TASK_PROJECT_EXTRACT_SRC, patcher), ExtractTask.class);
         {
