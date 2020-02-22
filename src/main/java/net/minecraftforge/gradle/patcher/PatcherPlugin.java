@@ -609,22 +609,22 @@ public class PatcherPlugin extends BasePlugin<PatcherExtension>
 
     protected void removeProject(PatcherProject patcher)
     {
-        project.getTasks().remove(project.getTasks().getByName(projectString(TASK_PROJECT_REMAP_JAR, patcher)));
-        project.getTasks().remove(project.getTasks().getByName(projectString(TASK_PROJECT_EXTRACT_SRC, patcher)));
-        project.getTasks().remove(project.getTasks().getByName(projectString(TASK_PROJECT_EXTRACT_RES, patcher)));
-        project.getTasks().remove(project.getTasks().getByName(projectString(TASK_PROJECT_MAKE_START, patcher)));
-        project.getTasks().remove(project.getTasks().getByName(projectString(TASK_PROJECT_RUNE_CLIENT, patcher)));
-        project.getTasks().remove(project.getTasks().getByName(projectString(TASK_PROJECT_RUNE_SERVER, patcher)));
-        project.getTasks().remove(project.getTasks().getByName(projectString(TASK_PROJECT_RUNJ_CLIENT, patcher)));
-        project.getTasks().remove(project.getTasks().getByName(projectString(TASK_PROJECT_RUNJ_SERVER, patcher)));
+        project.getTasks().getByName(projectString(TASK_PROJECT_REMAP_JAR, patcher)).setEnabled(false);
+        project.getTasks().getByName(projectString(TASK_PROJECT_RUNJ_SERVER, patcher)).setEnabled(false);
+        project.getTasks().getByName(projectString(TASK_PROJECT_EXTRACT_SRC, patcher)).setEnabled(false);
+        project.getTasks().getByName(projectString(TASK_PROJECT_EXTRACT_RES, patcher)).setEnabled(false);
+        project.getTasks().getByName(projectString(TASK_PROJECT_MAKE_START, patcher)).setEnabled(false);
+        project.getTasks().getByName(projectString(TASK_PROJECT_RUNE_CLIENT, patcher)).setEnabled(false);
+        project.getTasks().getByName(projectString(TASK_PROJECT_RUNE_SERVER, patcher)).setEnabled(false);
+        project.getTasks().getByName(projectString(TASK_PROJECT_RUNJ_CLIENT, patcher)).setEnabled(false);
 
         ((TaskGenSubprojects) project.getTasks().getByName(TASK_GEN_PROJECTS)).removeProject(patcher.getCapName());
 
-        project.getTasks().remove(project.getTasks().getByName(projectString(TASK_PROJECT_COMPILE, patcher)));
-        project.getTasks().remove(project.getTasks().getByName(projectString(TASK_PROJECT_GEN_EXC, patcher)));
-        project.getTasks().remove(project.getTasks().getByName(projectString(TASK_PROJECT_RANGEMAP, patcher)));
-        project.getTasks().remove(project.getTasks().getByName(projectString(TASK_PROJECT_RETROMAP, patcher)));
-        project.getTasks().remove(project.getTasks().getByName(projectString(TASK_PROJECT_RETRO_NONMC, patcher)));
+        project.getTasks().getByName(projectString(TASK_PROJECT_COMPILE, patcher)).setEnabled(false);
+        project.getTasks().getByName(projectString(TASK_PROJECT_GEN_EXC, patcher)).setEnabled(false);
+        project.getTasks().getByName(projectString(TASK_PROJECT_RANGEMAP, patcher)).setEnabled(false);
+        project.getTasks().getByName(projectString(TASK_PROJECT_RETROMAP, patcher)).setEnabled(false);
+        project.getTasks().getByName(projectString(TASK_PROJECT_RETRO_NONMC, patcher)).setEnabled(false);
     }
 
     public void afterEvaluate()
