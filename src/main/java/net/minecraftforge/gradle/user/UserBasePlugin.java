@@ -552,14 +552,16 @@ public abstract class UserBasePlugin<T extends UserBaseExtension> extends BasePl
                 // java
                 {
                     File dir = new File(dirRoot, "java");
+                    JavaCompile compile = (JavaCompile) project.getTasks().getByName(set.getCompileJavaTaskName());
 
                     task = makeTask(taskPrefix+"Java", TaskSourceCopy.class);
                     task.setSource(set.getJava());
+                    task.setAnnotationProcessorGeneratedSourcesDirectory(compile.getOptions().getAnnotationProcessorGeneratedSourcesDirectory());
+                    task.setExcludeAnnotationProcessorGeneratedSourcesDirectory(true);
                     task.setOutput(dir);
 
                     // must get replacements from extension afterEvaluate()
 
-                    JavaCompile compile = (JavaCompile) project.getTasks().getByName(set.getCompileJavaTaskName());
                     compile.dependsOn(task);
                     compile.setSource(dir);
                 }

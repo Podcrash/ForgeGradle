@@ -35,10 +35,7 @@ import org.gradle.api.file.DirectoryTree;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.file.FileTree;
 import org.gradle.api.file.SourceDirectorySet;
-import org.gradle.api.tasks.Input;
-import org.gradle.api.tasks.InputFiles;
-import org.gradle.api.tasks.OutputDirectory;
-import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.*;
 import org.gradle.api.tasks.util.PatternSet;
 
 import com.google.common.base.Charsets;
@@ -48,6 +45,12 @@ public class TaskSourceCopy extends DefaultTask
 {
     @InputFiles
     SourceDirectorySet      source;
+
+    @InputDirectory @Optional
+    Object             annotationProcessorGeneratedSourcesDirectory;
+
+    @Input
+    boolean             excludeAnnotationProcessorGeneratedSourcesDirectory;
 
     @Input
     HashMap<String, Object> replacements = new HashMap<String, Object>();
@@ -91,10 +94,19 @@ public class TaskSourceCopy extends DefaultTask
 
         getLogger().debug("REPLACE >> " + repl);
 
+        final File annotationProcessorGeneratedSourcesDirectory = !excludeAnnotationProcessorGeneratedSourcesDirectory ?
+                null :
+                getProject().file(this.annotationProcessorGeneratedSourcesDirectory);
+
         // start traversing tree
         for (DirectoryTree dirTree : source.getSrcDirTrees())
         {
             File dir = dirTree.getDir();
+            if(excludeAnnotationProcessorGeneratedSourcesDirectory && dir.equals(annotationProcessorGeneratedSourcesDirectory)) {
+                getLogger().debug("Skipped annotationProcessorGeneratedSourcesDirectory " + dir);
+                continue;
+            }
+
             getLogger().debug("PARSING DIR >> " + dir);
 
             // handle nonexistant srcDirs
@@ -194,6 +206,22 @@ public class TaskSourceCopy extends DefaultTask
     public FileCollection getSource()
     {
         return source;
+    }
+
+    public File getAnnotationProcessorGeneratedSourcesDirectory() {
+        return getProject().file(annotationProcessorGeneratedSourcesDirectory);
+    }
+
+    public void setAnnotationProcessorGeneratedSourcesDirectory(Object annotationProcessorGeneratedSourcesDirectory) {
+        this.annotationProcessorGeneratedSourcesDirectory = annotationProcessorGeneratedSourcesDirectory;
+    }
+
+    public boolean isExcludeAnnotationProcessorGeneratedSourcesDirectory() {
+        return excludeAnnotationProcessorGeneratedSourcesDirectory;
+    }
+
+    public void setExcludeAnnotationProcessorGeneratedSourcesDirectory(boolean excludeAnnotationProcessorGeneratedSourcesDirectory) {
+        this.excludeAnnotationProcessorGeneratedSourcesDirectory = excludeAnnotationProcessorGeneratedSourcesDirectory;
     }
 
     public void replace(String key, Object val)
